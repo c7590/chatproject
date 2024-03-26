@@ -16,6 +16,7 @@ def login_data(request):
         username = request.POST['username']
         password = request.POST['password']
 
+        request.session[]
         uid = UserProfile.objects.get(username = username)
 
         if uid.username == username and uid.password == password:
