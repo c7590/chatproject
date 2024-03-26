@@ -10,6 +10,7 @@ urlpatterns = [
 
     #signup
     path('signup/',views.signup,name="signup"),
+    path("signup_data/",views.signup_data,name="signup_data"),
 
 
     path("", views.index, name="index"),
