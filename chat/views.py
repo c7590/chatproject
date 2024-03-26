@@ -10,19 +10,28 @@ from chat.serializers import MessageSerializer
 def login(request):
     return render(request,"chat/login.html")
 
-def logindata(request):
-    if request.method == "POST":
-        username1 = request.POST["username1"]
-        password = request.POST["password"]
-        user = UserProfile.objects.get(username=username1)
-        if  user.username == username1 &  user.password == password:
-            return render(request,"chat/index.html")
-
-        
-        # return render(request,'chat/index.html')
-
+# signup
 def signup (request):
     return render(request,"chat/Signup.html")
+
+
+def signup_data(request):
+    if request.method == 'POST':
+        name = request.POST['name']
+        email = request.POST['email']
+        username = request.POST['username']
+        password = request.POST['password']
+        pic = request.FILES['pic']
+
+        uid = UserProfile.objects.create(
+            name=name,
+            email=email,
+            username = username,
+            password = password,
+            pic = pic
+
+        )
+        return render(request,"chat/login.html")
 
 def getFriendsList(id):
     """
