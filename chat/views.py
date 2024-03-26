@@ -11,7 +11,8 @@ def login(request):
     return render(request,"chat/login.html")
 
 
-
+def signup (request):
+    return render(request,"chat/Signup.html")
 
 def getFriendsList(id):
     """
