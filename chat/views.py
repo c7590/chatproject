@@ -10,6 +10,16 @@ from chat.serializers import MessageSerializer
 def login(request):
     return render(request,"chat/login.html")
 
+def logindata(request):
+    if request.method == "POST":
+        username1 = request.POST["username1"]
+        password = request.POST["password"]
+        user = UserProfile.objects.get(username=username1)
+        if  user.username == username1 &  user.password == password:
+            return render(request,"chat/index.html")
+
+        
+        # return render(request,'chat/index.html')
 
 def signup (request):
     return render(request,"chat/Signup.html")

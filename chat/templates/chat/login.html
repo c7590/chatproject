@@ -6,10 +6,9 @@
     {% comment %} <div class="sign-up form" style="max-width: 600px">
         <h1 class="mt-2">User Login</h1>
         <hr class="mt-0 mb-4">
-        <form method="post" class="form-group"  enctype="multipart/form-data">
+        <form action="" method="post" class="form-group"  enctype="multipart/form-data">
             {% csrf_token %}
              {{form|crispy}} 
-            
             
             <p>Don't have an account?<a href="/signup"> Create one.</a></p>
             <button type="submit" class="btn btn-success">Login</button>
@@ -26,18 +25,18 @@
                 class="img-fluid" alt="Phone image">
             </div>
             <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
-                <form method="post" class="form-group"  enctype="multipart/form-data">
+                <form action="{% url 'logindata' %}" method="post" class="form-group"  enctype="multipart/form-data">
                     {% csrf_token %}
                     <!-- Email input -->
                     <div class="form-outline mb-4">
                     <input type="email" id="form1Example13" class="form-control form-control-lg" />
-                    <label class="form-label" for="form1Example13">Email address</label>
+                    <label class="form-label" for="form1Example13" name="username1">username</label>
                     </div>
         
                     <!-- Password input -->
                     <div class="form-outline mb-4">
                     <input type="password" id="form1Example23" class="form-control form-control-lg" />
-                    <label class="form-label" for="form1Example23">Password</label>
+                    <label class="form-label" for="form1Example23" name="password">Password</label>
                     </div>
         
                     <div class="d-flex justify-content-around align-items-center mb-4">
