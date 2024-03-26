@@ -7,7 +7,7 @@ urlpatterns = [
 
     #login
     path("login/",views.login,name="login"),
-    path("logindata/",views.logindata,name="logindata"),
+    
 
 
     #signup
