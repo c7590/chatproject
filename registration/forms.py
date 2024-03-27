@@ -11,7 +11,6 @@ class SignUpForm(forms.Form):
     email = forms.EmailField(label="Email")
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(label="Confirm Password", widget=forms.PasswordInput)
-    pic  = forms.FileField(label="Image")
 
     def validate_username(self):
         username = self.cleaned_data['username']
@@ -35,19 +34,13 @@ class SignUpForm(forms.Form):
         if r.count():
             return None
         return email
-    def validate_pic(self):
-        pic1 = self.cleaned_data['pic']
-        pic = UserProfile.objects.filter(pic=pic1)
-        # Implement your validation logic for the profile picture if needed
-        return pic
 
     def save(self, commit=True):
         user = User.objects.create_user(
             self.cleaned_data['username'],
             self.cleaned_data['email'],
-            self.cleaned_data['password1'],
-            self.cleaned_data['pic'],
-            
+            self.cleaned_data['password1']
         )
         return user
+
 

@@ -19,12 +19,13 @@
     <div class="sidenav">
         <div class="row">
             <a href="/"><div class="col"><h2 style="padding-left: 16px; display: block-content;">WhatsApp</h2></div></a>
-        <div class="col"><div class="dropdown" >
+        <div class="col"><div class="dropdown">
             <button onclick="myFunction()" class="btn btn-success">Menu</button>
-            <div id="myDropdown" class="dropdown-content" >
-                <center><label style="color:green;font-size:18px;font-weight: 900;">  {{uid}}  </label></center>
+            <div id="myDropdown" class="dropdown-content">
+                <center><label style="color:green; font-size:20px; font-weight:bold">{{uid}} </label></center>
                 <a href="/search">Search</a>
                 <a href="/logout">Logout</a>
+                <a href="{% url 'update_profile' pk=uid.id %}">Update Profile</a>
               </div>
         </div>
         </div>

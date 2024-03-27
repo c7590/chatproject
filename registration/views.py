@@ -18,7 +18,6 @@ def SignUp(request):
             email = form.validate_email()
             username = form.validate_username()
             password = form.validate_password()
-            pic = form.validate_pic()
             if not email:
                 message.append("Email already registered!")
             elif not password:
@@ -28,19 +27,13 @@ def SignUp(request):
             else:
                 print("SUCCESS!!!!")
                 form.save()
-                
                 user = authenticate(username=username, password=password)
                 login(request, user)
-                profile = UserProfile(email=email, name=name, username=username, pic=pic)
+                profile = UserProfile(email=email, name=name, username=username,password=password)
                 profile.save()
-
-
                 request.session['username']=username
-
                 return redirect("/")
     else:
         form = SignUpForm()
     return render(request, "registration/signup.html", {"form": form, "heading": "Sign Up", "message": message})
-
-
 

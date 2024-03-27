@@ -65,9 +65,8 @@
     float: right;
     position: relative;
     display: inline-block;
-    margin-right: 200px;
+    margin-right: 8px;
     margin-bottom: 8px;
-
 }
 
 .dropdown-content {
@@ -78,7 +77,6 @@
     overflow: auto;
     border: 1px solid #ddd;
     z-index: 20;
-  
 }
 
 .dropdown-content a {
@@ -88,7 +86,6 @@
     text-decoration: none;
     display: block;
     z-index: 20;
-    
 }
 
 .dropdown a:hover {background-color: #ddd;}

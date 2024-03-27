@@ -6,8 +6,9 @@ class UserProfile(models.Model):
     name = models.CharField(max_length=25)
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=20, unique=True)
-    password = models.CharField(max_length=50,null="True")
-    pic = models.FileField(upload_to="media/",default="images/user_image.jpg")
+    password = models.CharField(max_length = 50,null=True)
+    pic = models.FileField(upload_to="media/",default="media/user_image.jpg",blank=True, null=True)
+ 
     def __str__(self):
         return f"{self.name}"
 

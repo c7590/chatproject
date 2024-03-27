@@ -6,46 +6,6 @@ from rest_framework.parsers import JSONParser
 from chat.serializers import MessageSerializer
 
 
-# login
-def login(request):
-    return render(request,"chat/login.html")
-
-
-def login_data(request):
-    if request.method == "POST":
-        username = request.POST['username']
-        password = request.POST['password']
-
-        request.session[]
-        uid = UserProfile.objects.get(username = username)
-
-        if uid.username == username and uid.password == password:
-            return render(request,"chat/index.html")
-
-
-# signup
-def signup (request):
-    return render(request,"chat/Signup.html")
-
-
-def signup_data(request):
-    if request.method == 'POST':
-        name = request.POST['name']
-        email = request.POST['email']
-        username = request.POST['username']
-        password = request.POST['password']
-        pic = request.FILES['pic']
-
-        uid = UserProfile.objects.create(
-            name=name,
-            email=email,
-            username = username,
-            password = password,
-            pic = pic
-
-        )
-        return render(request,"chat/login.html")
-
 def getFriendsList(id):
     """
     Get the list of friends of the  user
@@ -82,19 +42,24 @@ def index(request):
     :param request:
     :return:
     """
-
     if request.session:
-        uid = UserProfile.objects.get(username = request.session['username'])
-        
         if not request.user.is_authenticated:
             print("Not Logged In!")
             return render(request, "chat/index.html", {})
         else:
+            # username = request.user.username
+            # id = getUserId(username)
+            # friends = getFriendsList(id)
+            uid = UserProfile.objects.get(username = request.session['username'])
+            
+            print("uid_username :========  ",uid)
+
             username = request.user.username
+
             id = getUserId(username)
+            
             friends = getFriendsList(id)
-            print("uid login ------ ",uid) 
-            return render(request, "chat/Base.html", {'friends': friends,'uid':uid})
+            return render(request, "chat/Base.html", {'friends': friends,"uid":uid})
 
 
 def search(request):
@@ -105,6 +70,7 @@ def search(request):
     """
     if request.session:
         uid = UserProfile.objects.get(username = request.session['username'])
+
         users = list(UserProfile.objects.all())
         for user in users:
             if user.username == request.user.username:
@@ -118,7 +84,7 @@ def search(request):
             for user in users:
                 if query in user.name or query in user.username:
                     user_ls.append(user)
-            return render(request, "chat/search.html", {'users': user_ls,'uid':uid })
+            return render(request, "chat/search.html", {'users': user_ls, "uid":uid})
 
         try:
             users = users[:10]
@@ -126,7 +92,7 @@ def search(request):
             users = users[:]
         id = getUserId(request.user.username)
         friends = getFriendsList(id)
-        return render(request, "chat/search.html", {'users': users, 'friends': friends,'uid':uid})
+        return render(request, "chat/search.html", {'users': users, 'friends': friends,"uid":uid})
 
 
 def addFriend(request, name):
@@ -136,26 +102,24 @@ def addFriend(request, name):
     :param name:
     :return:
     """
-    if request.session:
-        uid = UserProfile.objects.get(username = request.session['username'])
 
-        username = request.user.username
-        id = getUserId(username)
-        friend = UserProfile.objects.get(username=name)
-        curr_user = UserProfile.objects.get(id=id)
-        print(curr_user.name)
-        ls = curr_user.friends_set.all()
-        flag = 0
-        for username in ls:
-            if username.friend == friend.id:
-                    flag = 1
-                    break
-        if flag == 0:
-            print("Friend Added!!")
-            curr_user.friends_set.create(friend=friend.id)
-            friend.friends_set.create(friend=id)
-            return redirect("/search")
-            
+    username = request.user.username
+    id = getUserId(username)
+    friend = UserProfile.objects.get(username=name)
+    curr_user = UserProfile.objects.get(id=id)
+    print(curr_user.name)
+    ls = curr_user.friends_set.all()
+    flag = 0
+    for username in ls:
+        if username.friend == friend.id:
+            flag = 1
+            break
+    if flag == 0:
+        print("Friend Added!!")
+        curr_user.friends_set.create(friend=friend.id)
+        friend.friends_set.create(friend=id)
+    return redirect("/search")
+
 
 def chat(request, username):
     """
@@ -178,6 +142,7 @@ def chat(request, username):
                         {'messages': messages,
                         'friends': friends,
                         'curr_user': curr_user, 'friend': friend,'uid':uid})
+        
 
 
 @csrf_exempt
@@ -197,3 +162,38 @@ def message_list(request, sender=None, receiver=None):
             serializer.save()
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
+
+# update_profile
+def update_profile(request,pk):
+    if request.session:
+        uid = UserProfile.objects.get(username = request.session["username"])
+        update_profile  = UserProfile.objects.get(id  = pk)
+        context = {
+            "uid":uid,
+            "update_profile":update_profile,
+        }
+        return render(request,'chat/update_profile.html',context)
+    
+def update_profile_data(request):
+    if request.method=="POST":
+        id = request.POST['id']
+        name = request.POST['name']
+        pic = request.FILES['pic']
+        password = request.FILES['password']
+        
+
+        userprofile = UserProfile.objects.get(id = int(id))
+        userprofile.name = name
+        userprofile.pic = pic
+        userprofile.password = password
+        userprofile.save()
+
+        return redirect("search/")()
+    
+
+
+# logout
+def logout(request):
+    if "username" in request.session:
+        del request.session['username']
+        return redirect('/')

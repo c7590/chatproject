@@ -1,0 +1,64 @@
+{% extends "chat/Base.html" %}
+{% load static %}
+{% block title %}Update Profile{% endblock %}
+{% block content %}
+<form action="{% url 'update_profile_data' %}" method="post" enctype="multipart/form-data">
+{% csrf_token %}
+    <div class="container-xl px-4 mt-4">
+        <!-- Account page navigation-->
+        <nav class="nav nav-borders">
+            <a class="nav-link active ms-0" href="" target="__blank">Update Profile</a>
+            
+        </nav>
+        <hr class="mt-0 mb-4">
+        <div class="row">
+            
+            <div class="col-xl-4">
+                <!-- Profile picture card-->
+                <div class="card mb-4 mb-xl-0">
+                    <div class="card-header">Profile Picture</div>
+                    <div class="card-body text-center">
+                        <!-- Profile picture image-->
+                        <img class="img-account-profile rounded-circle mb-2" src="{{uid.pic.url}}" alt="" height="350px">
+                        <!-- Profile picture help block-->
+                        <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+                        <!-- Profile picture upload button-->
+                        <input type="file" class="btn btn-primary" value="Upload new image" name="pic">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-8">
+                <!-- Account details card-->
+                <div class="card mb-4">
+                    <div class="card-header">Profile Details</div>
+                    <div class="card-body">
+                        
+                            <!-- Form Row-->
+                            <div class="row gx-3 mb-3">
+                                <!-- Form Group (first name)-->
+                                <div class="col-md-6">
+                                    <label class="small mb-1" for="inputFirstName">Name</label>
+                                    <input class="form-control" id="inputFirstName" type="text" placeholder="Enter your  name"  name="name" value="{{uid.name}}">
+
+                                    <input class="form-control" id="inputFirstName" type="text" placeholder="Enter your  name"  name="id" value="{{uid.id}}" hidden>
+                                </div>
+                                <!-- Form Group (last name)-->
+                                <div class="col-md-6">
+                                    <label class="small mb-1" for="inputLastName">Password</label>
+                                    <input class="form-control" id="inputLastName" type="password"  value="{{uid.password}}">
+                                </div>
+                            </div>
+                        
+                            
+                            
+                            <!-- Save changes button-->
+                            <input type="submit" class="btn btn-primary" value="Save changes">
+                        {% comment %} </form> {% endcomment %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+{% endblock %}
